@@ -15,6 +15,18 @@ mongoose.connect(process.env.MONGO_URI)
     .catch(err => console.error('❌ Error conexión MongoDB:', err));
 
 // 3. RUTAS
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'ok',
+        message: 'Servidor funcionando',
+        database: mongoose.connection.readyState === 1 ? 'Conectado' : 'Desconectado',
+        env: {
+            hasMongo: !!process.env.MONGO_URI,
+            hasJwt: !!process.env.JWT_SECRET,
+            port: process.env.PORT
+        }
+    });
+});
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tasks', require('./routes/tasks'));
 
