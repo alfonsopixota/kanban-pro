@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    // baseURL: 'https://kanban-pro-v6fa.onrender.com/api' // URL de Producción
-    baseURL: 'http://localhost:5001/api' // URL Local para pruebas (cambiado a 5001)
+    baseURL: 'https://kanban-pro-server.onrender.com/api' // URL de Producción en Render
+    // baseURL: 'http://localhost:5001/api' // URL Local para pruebas
 });
 
 // Esto es importante para que el token de seguridad se envíe siempre
