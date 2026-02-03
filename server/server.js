@@ -10,9 +10,16 @@ app.use(cors());
 app.use(express.json());
 
 // 2. CONEXIÓN A MONGODB
+let dbError = null;
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('✅ MongoDB Conectado (Producción)'))
-    .catch(err => console.error('❌ Error conexión MongoDB:', err));
+    .then(() => {
+        console.log('✅ MongoDB Conectado (Producción)');
+        dbError = null;
+    })
+    .catch(err => {
+        console.error('❌ Error conexión MongoDB:', err);
+        dbError = err.message;
+    });
 
 // 3. RUTAS
 app.get('/api/health', (req, res) => {
@@ -20,6 +27,7 @@ app.get('/api/health', (req, res) => {
         status: 'ok',
         message: 'Servidor funcionando',
         database: mongoose.connection.readyState === 1 ? 'Conectado' : 'Desconectado',
+        error: dbError,
         env: {
             hasMongo: !!process.env.MONGO_URI,
             hasJwt: !!process.env.JWT_SECRET,
