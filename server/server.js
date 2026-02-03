@@ -11,7 +11,9 @@ app.use(express.json());
 
 // 2. CONEXIÓN A MONGODB
 let dbError = null;
-mongoose.connect(process.env.MONGO_URI)
+const mongoUri = process.env.MONGO_URI ? process.env.MONGO_URI.trim() : null;
+
+mongoose.connect(mongoUri)
     .then(() => {
         console.log('✅ MongoDB Conectado (Producción)');
         dbError = null;
