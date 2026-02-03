@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
         res.status(201).json({ message: "Usuario creado correctamente" });
     } catch (e) {
         console.error("Error en /register:", e);
-        res.status(400).json({ error: "Error al crear el usuario" });
+        res.status(400).json({ error: "Error al crear el usuario", details: e.message });
     }
 });
 
@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
         res.json({ token });
     } catch (e) {
         console.error("Error en /login:", e);
-        res.status(500).json({ error: "Error en el servidor" });
+        res.status(500).json({ error: "Error en el servidor", details: e.message });
     }
 });
 
