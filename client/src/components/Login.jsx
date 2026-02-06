@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import api from '../api/config';
-import { Mail, Lock, LogIn, UserPlus } from 'lucide-react';
+import { Mail, Lock, LogIn, UserPlus, Layout } from 'lucide-react';
 
 const Login = ({ setToken }) => {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -29,102 +29,81 @@ const Login = ({ setToken }) => {
     };
 
     return (
-        <div style={containerStyle}>
-            <div className="glass-card animate-fade-in" style={cardStyle}>
-                <div style={headerStyle}>
-                    <div style={logoStyle}>📊</div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '8px' }}>
-                        {isRegistering ? 'Crea tu cuenta' : '¡Bienvenido de nuevo!'}
+        <div className="login-page">
+            <div className="glass-card animate-fade-in login-card">
+                <div className="login-header">
+                    <div className="login-logo">
+                        <Layout size={40} color="var(--primary)" />
+                    </div>
+                    <h2 className="login-title">
+                        {isRegistering ? 'Crea tu cuenta' : 'Kanban Pro Premium'}
                     </h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                        {isRegistering ? 'Empieza a organizar tus proyectos hoy mismo' : 'Gestiona tus tareas con Kanban Pro'}
+                    <p className="login-subtitle">
+                        {isRegistering ? 'Empieza a gestionar tus proyectos hoy mismo' : 'Tu organización al siguiente nivel'}
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div style={inputGroupStyle}>
-                        <Mail size={18} style={iconStyle} />
-                        <input
-                            className="input-premium"
-                            style={{ width: '100%', paddingLeft: '44px' }}
-                            type="email"
-                            placeholder="Tu correo electrónico"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            required
-                        />
+                <form onSubmit={handleSubmit} className="login-form">
+                    <div className="form-group">
+                        <label className="label-premium">Email</label>
+                        <div className="login-input-wrapper">
+                            <Mail size={18} className="login-icon" />
+                            <input
+                                className="input-premium login-input"
+                                type="email"
+                                placeholder="tu@email.com"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <div style={inputGroupStyle}>
-                        <Lock size={18} style={iconStyle} />
-                        <input
-                            className="input-premium"
-                            style={{ width: '100%', paddingLeft: '44px' }}
-                            type="password"
-                            placeholder="Tu contraseña secreta"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            required
-                        />
+                    <div className="form-group">
+                        <label className="label-premium">Contraseña</label>
+                        <div className="login-input-wrapper">
+                            <Lock size={18} className="login-icon" />
+                            <input
+                                className="input-premium login-input"
+                                type="password"
+                                placeholder="••••••••"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <button className="btn-premium" style={{ marginTop: '8px' }} disabled={loading}>
-                        {loading ? 'Procesando...' : (isRegistering ? <><UserPlus size={20} /> Registrarme</> : <><LogIn size={20} /> Entrar ahora</>)}
+                    <button className="btn-premium login-submit" disabled={loading}>
+                        {loading ? 'Procesando...' : (isRegistering ? <><UserPlus size={20} /> Registrarme</> : <><LogIn size={20} /> Iniciar Sesión</>)}
                     </button>
                 </form>
 
-                <p onClick={() => setIsRegistering(!isRegistering)} style={toggleStyle}>
-                    {isRegistering ? '¿Ya tienes cuenta? Inicia sesión aquí' : '¿Aún no tienes cuenta? Regístrate gratis'}
-                </p>
+                <div className="login-footer">
+                    <p onClick={() => setIsRegistering(!isRegistering)} className="login-toggle">
+                        {isRegistering ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate gratis'}
+                    </p>
+                </div>
             </div>
+
+            <style>{`
+                .login-page { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+                .login-card { padding: 48px 40px; width: 100%; maxWidth: 440px; text-align: center; }
+                .login-header { margin-bottom: 32px; }
+                .login-logo { margin-bottom: 20px; display: inline-flex; padding: 16px; background: var(--column-bg); border-radius: 16px; border: 1px solid var(--border-color); }
+                .login-title { font-size: 1.8rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px; }
+                .login-subtitle { color: var(--text-muted); font-size: 0.95rem; }
+                .login-form { display: flex; flex-direction: column; gap: 20px; text-align: left; }
+                .login-input-wrapper { position: relative; }
+                .login-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+                .login-input { padding-left: 48px !important; }
+                .login-submit { margin-top: 10px; width: 100%; height: 50px; font-size: 1rem; }
+                .login-footer { margin-top: 24px; }
+                .login-toggle { font-size: 0.9rem; color: var(--primary); cursor: pointer; font-weight: 700; transition: all 0.2s; }
+                .login-toggle:hover { opacity: 0.8; text-decoration: underline; }
+            `}</style>
         </div>
     );
-};
-
-const containerStyle = {
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '20px'
-};
-
-const cardStyle = {
-    padding: '48px 40px',
-    width: '100%',
-    maxWidth: '420px',
-    textAlign: 'center'
-};
-
-const headerStyle = {
-    marginBottom: '32px'
-};
-
-const logoStyle = {
-    fontSize: '3rem',
-    marginBottom: '16px'
-};
-
-const inputGroupStyle = {
-    position: 'relative',
-    width: '100%'
-};
-
-const iconStyle = {
-    position: 'absolute',
-    left: '14px',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    color: 'var(--text-muted)'
-};
-
-const toggleStyle = {
-    marginTop: '24px',
-    fontSize: '0.9rem',
-    color: 'var(--primary)',
-    cursor: 'pointer',
-    fontWeight: '600',
-    transition: 'color 0.2s ease'
 };
 
 export default Login;
